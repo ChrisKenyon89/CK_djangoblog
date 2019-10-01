@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from myblog.models import Post
-from django.contrib.auth.views import LoginView, LogoutView
 
 def stub_view(request, *args, **kwargs):
     body = "Stub View\n\n"
