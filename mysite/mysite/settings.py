@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from social_core.backends.facebook import FacebookOAuth2
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
     'myblog'
 ]
 
@@ -67,7 +73,7 @@ TEMPLATES = [
         },
     },
 ]
-
+    
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
@@ -120,3 +126,26 @@ LOGIN_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+
+SITE_ID = 1
+
+#LOGIN_REDIRECT_URL = '/profile/'
+
+# I'm not sure this is doing anything i was 
+# attempting to stop the FB "Cant't load URL" error
+class FacebookOAuth2Override(FacebookOAuth2):
+    REDIRECT_STATE = False
+    STATE_PARAMETER = False
+    SOCIAL_AUTH_FACEBOOK_KEY = 'key'
+    SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
+    SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+    SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+      'locale': 'en',
+      'fields': 'id,name'
+    }    
+

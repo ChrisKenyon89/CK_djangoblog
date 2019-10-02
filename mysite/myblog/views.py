@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.template import loader
 from myblog.models import Post
+from django import forms
+from myblog.forms import MyPostForm
 
 def stub_view(request, *args, **kwargs):
     body = "Stub View\n\n"
@@ -27,3 +29,19 @@ def detail_view(request, post_id):
         raise Http404
     context = {'post': post}
     return render(request, 'detail.html', context)
+
+#def add_model(request):
+
+    #if request.method == "POST":
+        #form = MyPostForm(request.POST)
+        #if form.is_valid():
+            #model_instance = form.save(commit=False)
+            #model_instance.timestamp = timezone.now()
+            #model_instance.save()
+            #return redirect('/')
+
+    #else:
+
+        #form = MyPostForm()
+
+        #return render(request, "my_template.html", {'form': form})
